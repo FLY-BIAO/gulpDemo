@@ -2,7 +2,7 @@
   "name": "gulpdemo1",
   "version": "1.0.0",
   "description": "",
-  "main": "gulpfile.js",
+  "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=dev gulp buildDev --require babel-register --gulpfile tasks",
     "test": "echo \"Error: no test specified\" && exit 1"
