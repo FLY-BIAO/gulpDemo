@@ -1,0 +1,37 @@
+.container {
+    width: 550px;
+    margin: 20px auto;
+    background: -webkit-linear-gradient(210deg, rgba(150, 50, 50, 0.3), rgba(0, 0, 200, 0));
+  }
+  
+  #path96117 {
+    stroke-width: 1;
+    stroke: #ff7700;
+    /* animation: lineMove 15s ease-out infinite; */
+  }
+  
+  @keyframes lineMove {
+    0% {
+      stroke-dasharray: 0, 2066;
+    }
+    25% {
+      stroke-dasharray: 2066, 2066;
+      fill: rgba(0, 0, 0, 0);
+      opacity: 1;
+    }
+    50% {
+        stroke-dasharray: 2066, 2066;
+        fill: rgba(255, 88, 88, 0.4);
+        opacity: 1;
+      }
+    75% {
+        stroke-dasharray: 0, 2066;
+        fill: rgba(0, 0, 0, 0);
+        opacity: 1;
+      }
+    100% {
+      stroke-dasharray: 0, 0;
+      fill: rgba(255, 119, 0, 0.5);
+      opacity: 0;
+    }
+  }
