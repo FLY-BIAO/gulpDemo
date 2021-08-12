@@ -25,11 +25,11 @@ function mtrMultMtr(matrixA, matrixB) {
 /**
  * 缩放矩阵计算
  * @param {Number} x 缩放系数
- * @param {Number} y 
- * @param {Number} z 
+ * @param {Number} y default:x
+ * @param {Number} z default:x
  * @returns 
  */
-function scale(x, y, z) {
+function scale(x, y=x, z=x) {
     return [
         x, 0, 0, 0,
         0, y, 0, 0,
@@ -41,11 +41,11 @@ function scale(x, y, z) {
 /**
  * 缩放矩阵计算
  * @param {Number} x 平移距离
- * @param {Number} y 
- * @param {Number} z 
+ * @param {Number} y default:x
+ * @param {Number} z default:x
  * @returns 
  */
-function translate(x, y, z) {
+function translate(x, y=x, z=x) {
     return [
         1, 0, 0, 0,
         0, 1, 0, 0,
@@ -57,11 +57,11 @@ function translate(x, y, z) {
 /**
  * 输入角度计算旋转矩阵
  * @param {Number} x 旋转角度
- * @param {Number} y 
- * @param {Number} z
+ * @param {Number} y default:x
+ * @param {Number} z default:x
  * @returns 
  */
-function rotate(x, y, z) {
+function rotate(x, y=x, z=x) {
     let mixMatrix =  mtrMultMtr( rotateX(x), rotateY(y));
     return  mtrMultMtr( mixMatrix, rotateZ(z));
 }
@@ -116,3 +116,6 @@ function rotateZ(a) {
 function matrixArrayToCssMatrix(array) {
     return "matrix3d(" + array.join(',') + ")";
 }
+
+
+console.log(matrixArrayToCssMatrix(mtrMultMtr(mtrMultMtr(translate(-97, -97, 0), rotate(4.5,4.5,0)),translate(97, 97, 0))))
