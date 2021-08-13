@@ -184,9 +184,9 @@ function scale(x, y=x) {
  */
 function translate(x, y=x) {
     return [
-        1, 0, 0,
-        0, 1, 0,
-        x, y, 1
+        1, 0, x,
+        0, 1, y,
+        0, 0, 1
     ];
 }
 
