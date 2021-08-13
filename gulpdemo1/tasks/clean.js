@@ -1,7 +1,7 @@
 import path from 'path'
 import del from 'del'
 
-const paths = path.resolve(__dirname,'../dev')
+const paths = path.resolve(__dirname,'../bulid')
 
 function clean() {
     return del(paths)
