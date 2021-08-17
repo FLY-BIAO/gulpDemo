@@ -1,0 +1,47 @@
+.contanter {
+    height: 550px;
+    overflow: hidden;
+}
+.round {
+    position: relative;
+    width: 500px;
+    margin: 50px auto;
+}
+.big {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 500px;
+    height: 500px;
+    background-image: url(../img/rod.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border-radius: 250px;
+}
+.small {
+    position: absolute;
+    top: 150px;
+    left: 150px;
+    width: 200px;
+    height: 200px;
+    outline: none;
+    background: pink;
+    text-align: center;
+    line-height: 200px;
+    font-size: 28px;
+    font-weight: 700;
+    user-select: none;
+    cursor: pointer;
+    border-radius: 100px;
+}
+.pointer {
+    position: absolute;
+    top: -40px;
+    left: 80px;
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 50px solid pink;
+}
