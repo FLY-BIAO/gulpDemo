@@ -7,7 +7,7 @@
 #path96117 {
   stroke-width: 1;
   stroke: #ff7700;
-  /* animation: lineMove 15s ease-out infinite; */
+  animation: lineMove 15s ease-out infinite;
 }
 
 @keyframes lineMove {
