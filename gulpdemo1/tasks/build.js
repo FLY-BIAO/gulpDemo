@@ -3,7 +3,11 @@ const { src, dest, parallel } = require('gulp');
 const babel = require('gulp-babel');
 const uglify = require('gulp-uglify');
 const cssnano = require('gulp-cssnano');
+const autoprefix = require('gulp-autoprefixer')
+var rev = require('gulp-rev');                      //- 对css、js文件名加MD5后缀
 const htmlmin = require('gulp-htmlmin');
+var revCollector = require('gulp-rev-collector');   //- 路径替换
+const rename = require('gulp-rename');
 const sourceFile = path.resolve(__dirname,'../');
 
 const paths = {
@@ -31,6 +35,11 @@ function js() {
 function css() {
     return src(paths.css)
     .pipe(cssnano())
+    .pipe(autoprefix({ //通过autoprefix自动添加兼容各大浏览器的样式前缀，例如-webkit-，-o-
+        overrideBrowserslist: ['last 2 versions'], //兼容最新2个版本
+        cascade: false,
+    }))
+    .pipe(rename({suffix:'.min'}))
     .pipe(dest(des.css));
 }
 function img() {
@@ -39,6 +48,7 @@ function img() {
 }
 function html() {
     return src(paths.html)
+    .pipe(revCollector())
     .pipe(
         htmlmin({
             removeComments: true,               // 清除HTML注释
