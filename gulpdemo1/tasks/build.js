@@ -1,9 +1,10 @@
-const path = require('path')
+const path = require('path');
 const { src, dest, parallel } = require('gulp');
 const babel = require('gulp-babel');
 const uglify = require('gulp-uglify');
-const cssnano = require('gulp-cssnano')
-const sourceFile = path.resolve(__dirname,'../')
+const cssnano = require('gulp-cssnano');
+const htmlmin = require('gulp-htmlmin');
+const sourceFile = path.resolve(__dirname,'../');
 
 const paths = {
     html: path.resolve(sourceFile,'pages/*.html'),
@@ -38,6 +39,18 @@ function img() {
 }
 function html() {
     return src(paths.html)
+    .pipe(
+        htmlmin({
+            removeComments: true,               // 清除HTML注释
+            collapseWhitespace: true,           // 压缩空格
+            collapseBooleanAttributes: true,    // 省略布尔属性的值 <input checked="true"/> => <input checked>
+            removeEmptyAttributes: true,        // 删除所有空格作属性值 <input id=""> => <input>
+            removeScriptTypeAttributes: true,   // 删除<script>的type="text/javascript"
+            removeStyleLinkTypeAttributes: true,// 删除<style>和<link>的type="text/css"
+            minifyJS: true,                     // 压缩页面JS
+            minifyCSS: true                     // 压缩页面CSS
+        }),
+    )
     .pipe(dest(des.html));
 }
 function api() {
