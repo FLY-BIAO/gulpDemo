@@ -11,6 +11,7 @@ const rename = require('gulp-rename');
 const sourceFile = path.resolve(__dirname,'../');
 const livereload = require('gulp-livereload');
 const connect = require('gulp-connect');
+const open = require('open');
 
 const paths = {
     html: path.resolve(sourceFile,'pages/*.html'),
@@ -82,13 +83,15 @@ function watch() {
     // livereload.listen();    //开始监听
     connect.server({
         root: paths.des,
-        livereload: true
+        livereload: true,
+        port: 8088
       });
     gulp.watch(paths.js, js); // 确认监听的目标以及绑定相应的任务
     gulp.watch(paths.css, css);
     gulp.watch(paths.img, img);
     gulp.watch(paths.html).on('change',html);
     gulp.watch(paths.api, api);
+    open('http://localhost:8088')
 }
 
 export const build = gulp.parallel(js, css, img, html, api);
