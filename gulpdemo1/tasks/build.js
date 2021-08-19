@@ -1,5 +1,5 @@
 const path = require('path');
-const { src, dest, parallel } = require('gulp');
+const gulp = require('gulp');
 const babel = require('gulp-babel');
 const uglify = require('gulp-uglify');
 const cssnano = require('gulp-cssnano');
@@ -9,6 +9,8 @@ const htmlmin = require('gulp-htmlmin');
 var revCollector = require('gulp-rev-collector');   //- 路径替换
 const rename = require('gulp-rename');
 const sourceFile = path.resolve(__dirname,'../');
+const livereload = require('gulp-livereload');
+const connect = require('gulp-connect');
 
 const paths = {
     html: path.resolve(sourceFile,'pages/*.html'),
@@ -27,27 +29,33 @@ const des = {
 }
 
 function js() {
-    return src(paths.js)
+    return gulp.src(paths.js)
     .pipe(babel())
     .pipe(uglify())
-    .pipe(dest(des.js));
+    .pipe(gulp.dest(des.js))
+    .pipe(livereload())
+    .pipe(connect.reload())
 }
 function css() {
-    return src(paths.css)
+    return gulp.src(paths.css)
     .pipe(cssnano())
     .pipe(autoprefix({ //通过autoprefix自动添加兼容各大浏览器的样式前缀，例如-webkit-，-o-
         overrideBrowserslist: ['last 2 versions'], //兼容最新2个版本
         cascade: false,
     }))
     .pipe(rename({suffix:'.min'}))
-    .pipe(dest(des.css));
+    .pipe(gulp.dest(des.css))
+    .pipe(livereload())
+    .pipe(connect.reload())
 }
 function img() {
-    return src(paths.img)
-    .pipe(dest(des.img));
+    return gulp.src(paths.img)
+    .pipe(gulp.dest(des.img))
+    .pipe(livereload())
+    .pipe(connect.reload())
 }
 function html() {
-    return src(paths.html)
+    return gulp.src(paths.html)
     .pipe(revCollector())
     .pipe(
         htmlmin({
@@ -61,10 +69,27 @@ function html() {
             minifyCSS: true                     // 压缩页面CSS
         }),
     )
-    .pipe(dest(des.html));
+    .pipe(gulp.dest(des.html))
+    .pipe(livereload())
+    .pipe(connect.reload())
 }
 function api() {
-    return src(paths.api)
-    .pipe(dest(des.api));
+    return gulp.src(paths.api)
+    .pipe(gulp.dest(des.api))
+    .pipe(livereload());
 }
-export default parallel(js, css, img, html, api);
+function watch() {
+    // livereload.listen();    //开始监听
+    connect.server({
+        root: paths.des,
+        livereload: true
+      });
+    gulp.watch(paths.js, js); // 确认监听的目标以及绑定相应的任务
+    gulp.watch(paths.css, css);
+    gulp.watch(paths.img, img);
+    gulp.watch(paths.html).on('change',html);
+    gulp.watch(paths.api, api);
+}
+
+export const build = gulp.parallel(js, css, img, html, api);
+export const server = gulp.series(build, watch);
