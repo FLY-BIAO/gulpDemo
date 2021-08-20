@@ -1,5 +1,5 @@
 const { series } = require('gulp');
-
+const {build, server}  = require('./tasks/build');
 
 function defaultTask(cb){
     cb()
@@ -10,12 +10,7 @@ function clean(cb) {
     cb();
 }
 
-function build(cb) {
-    console.log('ok')
-    cb();
-}
-
-exports.defaultTask = defaultTask;
+exports.server = server;
 exports.default = series(clean, build);
 
 // exports.default = defaultTask

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV=dev gulp buildDev --require babel-register --gulpfile tasks",
+    "dev": "gulp buildDev --require babel-register --gulpfile tasks",
+    "devServer": "gulp devServer --require babel-register --gulpfile tasks",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
