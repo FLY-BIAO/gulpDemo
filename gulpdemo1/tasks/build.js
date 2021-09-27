@@ -12,6 +12,7 @@ const sourceFile = path.resolve(__dirname,'../');
 const livereload = require('gulp-livereload');
 const connect = require('gulp-connect');
 const open = require('open');
+const zip = require('gulp-zip');
 
 const paths = {
     html: path.resolve(sourceFile,'pages/*.html'),
@@ -33,7 +34,11 @@ function js() {
     return gulp.src(paths.js)
     .pipe(babel())
     .pipe(uglify())
+    .pipe(rev())
     .pipe(gulp.dest(des.js))
+    .pipe(rev.manifest())
+    .pipe(rename('rev_js_manifest.json'))
+    .pipe(gulp.dest('build/rev'))
     .pipe(livereload())
     .pipe(connect.reload())
 }
@@ -44,8 +49,10 @@ function css() {
         overrideBrowserslist: ['last 2 versions'], //兼容最新2个版本
         cascade: false,
     }))
-    .pipe(rename({suffix:'.min'}))
+    .pipe(rev())
     .pipe(gulp.dest(des.css))
+    .pipe(rename('rev_css_manifest.json'))
+    .pipe(gulp.dest('build/rev'))
     .pipe(livereload())
     .pipe(connect.reload())
 }
@@ -56,8 +63,7 @@ function img() {
     .pipe(connect.reload())
 }
 function html() {
-    return gulp.src(paths.html)
-    .pipe(revCollector())
+    return gulp.src(['build/rev/*.json', ...paths.html])
     .pipe(
         htmlmin({
             removeComments: true,               // 清除HTML注释
@@ -70,6 +76,7 @@ function html() {
             minifyCSS: true                     // 压缩页面CSS
         }),
     )
+    .pipe(revCollector({ replaceReved: true }))
     .pipe(gulp.dest(des.html))
     .pipe(livereload())
     .pipe(connect.reload())
@@ -79,6 +86,11 @@ function api() {
     .pipe(gulp.dest(des.api))
     .pipe(livereload());
 }
+function zipPack() {
+    return gulp.src([path.resolve(paths.des, '**/*.*'), '!**/rev/*'])
+      .pipe(zip('h5.zip'))
+      .pipe(gulp.dest('build'));
+  }
 function watch() {
     // livereload.listen();    //开始监听
     connect.server({
